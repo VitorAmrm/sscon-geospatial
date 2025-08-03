@@ -1,0 +1,2219 @@
+{
+	"info": {
+		"_postman_id": "a109ca79-78ce-4b59-a6ec-2115a8dc3ad1",
+		"name": "SSCON GEOSPATIAL",
+		"description": "API para gerenciamento de pessoas, cálculo de idade e salário.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14386094",
+		"_collection_link": "https://galactic-moon-930429.postman.co/workspace/Pessoal~1906f9c2-9aa1-452b-8ad2-52a16db672f5/collection/14386094-a109ca79-78ce-4b59-a6ec-2115a8dc3ad1?action=share&source=collection_link&creator=14386094"
+	},
+	"item": [
+		{
+			"name": "Cenário 1 - Listagem de Pessoas",
+			"item": [
+				{
+					"name": "ID 1 - Listagem Inicial",
+					"item": [
+						{
+							"name": "Listagem Inicial",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"A lista tem exatamente 3 elementos\", function () {\r",
+											"    pm.expect(response.length).to.eql(3);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ID 2 - Listagem após adicionar uma pessoa",
+					"item": [
+						{
+							"name": "Cria uma nova pessoa",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 123,\n  \"nome\": \"João Silva\",\n  \"dataDeNascimento\": \"15/05/1990\",\n  \"dataDeAdmissao\": \"10/01/2020\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Pessoa criada com sucesso",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"id\": 4,\n  \"nome\": \"João Silva\",\n  \"dataDeNascimento\": \"1990-05-15\",\n  \"dataDeAdmissao\": \"2020-01-10\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/person",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"person"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 1,\n  \"nome\": \"João Silva\",\n  \"dataDeNascimento\": \"1990-05-15\",\n  \"dataDeAdmissao\": \"2020-01-10\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Listagem Inicial",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"A lista tem exatamente 3 elementos\", function () {\r",
+											"    pm.expect(response.length).to.greaterThan(3);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deletando para manter o mesmo numero do inicio",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/person/123",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"123"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Pessoa deletada",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/person/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"person",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"nome\": \"string\",\n  \"dataDeNascimento\": \"1990-05-15\",\n  \"dataDeAdmissao\": \"2020-01-10\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "ID 3 - Listagem após deletar uma pessoa",
+					"item": [
+						{
+							"name": "Cria uma nova pessoa",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": 124,\n  \"nome\": \"João Silva\",\n  \"dataDeNascimento\": \"15/05/1990\",\n  \"dataDeAdmissao\": \"10/01/2020\"\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Pessoa criada com sucesso",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"id\": 4,\n  \"nome\": \"João Silva\",\n  \"dataDeNascimento\": \"1990-05-15\",\n  \"dataDeAdmissao\": \"2020-01-10\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/person",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"person"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": 1,\n  \"nome\": \"João Silva\",\n  \"dataDeNascimento\": \"1990-05-15\",\n  \"dataDeAdmissao\": \"2020-01-10\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Deleta uma pessoa",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/person/124",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"124"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Pessoa deletada",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/person/:id",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"person",
+												":id"
+											],
+											"variable": [
+												{
+													"key": "id"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"nome\": \"string\",\n  \"dataDeNascimento\": \"1990-05-15\",\n  \"dataDeAdmissao\": \"2020-01-10\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Listagem após a remoção",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"A lista tem exatamente 3 elementos\", function () {\r",
+											"    pm.expect(response.length).to.eql(3);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Cenário 2 - Criação de Pessoas",
+			"item": [
+				{
+					"name": "ID 1 - Criação de pessoa com body válido",
+					"item": [
+						{
+							"name": "Criar um usuário válido",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status tem que ser 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"O id tem que ser 235\", function () {\r",
+											"    pm.expect(response.id).to.eql(235);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 235,\r\n  \"nome\": \"João Silva do Criado\",\r\n  \"dataDeNascimento\": \"15/05/1990\",\r\n  \"dataDeAdmissao\": \"10/01/2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Apagar Usuário para manter o mesmo numero de pessoas",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person/235",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"235"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ID 2 - Criação de Usuário que já existe",
+					"item": [
+						{
+							"name": "Criar um usuário válido",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status tem que ser 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"O id tem que ser 236\", function () {\r",
+											"    pm.expect(response.id).to.eql(236);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 236,\r\n  \"nome\": \"João Silva do Criado\",\r\n  \"dataDeNascimento\": \"15/05/1990\",\r\n  \"dataDeAdmissao\": \"10/01/2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Criar um usuário com id que já existe",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status tem que diferente de 200\", function () {\r",
+											"    pm.response.to.not.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"A mensagem de erro tem que ser 'Pessoa já existe com id: 236'\", function () {\r",
+											"    pm.expect(response.message).to.eql(\"Pessoa já existe com id: 236\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 236,\r\n  \"nome\": \"João Silva do Criado 2\",\r\n  \"dataDeNascimento\": \"15/05/1990\",\r\n  \"dataDeAdmissao\": \"10/01/2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Apagar Usuário para manter o mesmo numero de pessoas Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person/236",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"236"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ID 3 - Criação de pessoa com body inválido",
+					"item": [
+						{
+							"name": "Criar um usuário com data inválida",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status tem que ser diferente de 200\", function () {\r",
+											"    pm.response.to.not.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 235,\r\n  \"nome\": \"João Silva do Criado\",\r\n  \"dataDeNascimento\": \"15/05/1990\",\r\n  \"dataDeAdmissao\": \"32/13/2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Cenário 3 - Edição de Pessoas",
+			"item": [
+				{
+					"name": "ID 1 - Edição de pessoa com body válido",
+					"item": [
+						{
+							"name": "Criar um usuário válido para utilizar no Cenário",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status tem que ser 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"O id tem que ser 335\", function () {\r",
+											"    pm.expect(response.id).to.eql(335);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 335,\r\n  \"nome\": \"João Silva do Criado\",\r\n  \"dataDeNascimento\": \"15/05/1990\",\r\n  \"dataDeAdmissao\": \"10/01/2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Atualizar um usuário válido",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status tem que ser 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"O id tem que ser 335\", function () {\r",
+											"    pm.expect(response.id).to.eql(335);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"O nome tem que ser 'João Silva do Atualizado'\", function() {\r",
+											"    pm.expect(response.nome).to.eql(\"João Silva do Atualizado\")\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 335,\r\n  \"nome\": \"João Silva do Atualizado\",\r\n  \"dataDeNascimento\": \"15/05/1990\",\r\n  \"dataDeAdmissao\": \"10/01/2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person/335",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"335"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ID 1 - Edição de pessoa que não existe com body válido",
+					"item": [
+						{
+							"name": "Apagando pessoa do cenário Copy",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person/335",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"335"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Atualizar um usuário que não existe",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status tem que ser 200\", function () {\r",
+											"    pm.response.to.not.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"A mensagem de erro tem que ser 'Pessoa  com id: 335 não existe'\", function () {\r",
+											"    pm.expect(response.message).to.eql(\"Pessoa  com id: 335 não existe\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 335,\r\n  \"nome\": \"João Silva do Atualizado\",\r\n  \"dataDeNascimento\": \"15/05/1990\",\r\n  \"dataDeAdmissao\": \"10/01/2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person/335",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"335"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ID 3 - Criação de pessoa com data invalida no body",
+					"item": [
+						{
+							"name": "Criar um usuário válido para utilizar no Cenário",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status tem que ser 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"O id tem que ser 335\", function () {\r",
+											"    pm.expect(response.id).to.eql(335);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 335,\r\n  \"nome\": \"João Silva do Criado\",\r\n  \"dataDeNascimento\": \"15/05/1990\",\r\n  \"dataDeAdmissao\": \"10/01/2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Criar um usuário com data inválida",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status tem que ser diferente de 200\", function () {\r",
+											"    pm.response.to.not.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"A mensagem de erro tem que ser 'Formato de data inválido. Use dd/MM/yyyy, ex: 01/05/2009'\", function () {\r",
+											"    pm.expect(response.message).to.eql(\"Formato de data inválido. Use dd/MM/yyyy, ex: 01/05/2009\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nome\": \"João Silva do Criado\",\r\n  \"dataDeNascimento\": \"15/05/1990\",\r\n  \"dataDeAdmissao\": \"45/28/2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person/335",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"335"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ID 4 - Criação de pessoa sem campos obrigatorios no body",
+					"item": [
+						{
+							"name": "Alterar um usuário sem campos obrigatorios",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status tem que ser diferente de 200\", function () {\r",
+											"    pm.response.to.not.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n \"id\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person/335",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"335"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ID 5 - Edição de pessoa com apenas um campo: Nome",
+					"item": [
+						{
+							"name": "Atualizar um usuário válido",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status tem que ser 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"O nome tem que ser 'Heu-ming Son'\", function() {\r",
+											"    pm.expect(response.nome).to.eql(\"Heu-ming Son\")\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nome\": \"Heu-ming Son\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person/335",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"335"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ID 6 - Edição de pessoa com apenas um campo: dataDeNascimento",
+					"item": [
+						{
+							"name": "Atualizar um usuário válido",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status tem que ser 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"O Data de Nascimento tem que ser '2001-09-10'\", function() {\r",
+											"    pm.expect(response.dataDeNascimento).to.eql(\"2001-09-10\")\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"dataDeNascimento\": \"10/09/2001\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person/335",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"335"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ID 7 - Edição de pessoa com apenas um campo: dataDeAdmissao",
+					"item": [
+						{
+							"name": "Atualizar um usuário válido",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status tem que ser 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"O Data de Admissão tem que ser '1999-09-10'\", function() {\r",
+											"    pm.expect(response.dataDeAdmissao).to.eql(\"1999-09-10\")\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"dataDeAdmissao\": \"10/09/1999\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person/335",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"335"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ID 8 - Edição de pessoa que não existe com apenas um campo: nome",
+					"item": [
+						{
+							"name": "Apagando pessoa do cenário",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person/335",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"335"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Atualizar um usuário válido",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status tem que ser diferente de 200\", function () {\r",
+											"    pm.response.to.not.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"A mensagem de erro tem que ser 'Pessoa  com id: 335 não existe'\", function() {\r",
+											"    pm.expect(response.message).to.eql(\"Pessoa  com id: 335 não existe\")\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"dataDeAdmissao\": \"10/07/1995\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person/335",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"335"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Cenário 4 - Remoção de  Pessoas",
+			"item": [
+				{
+					"name": "ID - 1 Apagar um usuário válido",
+					"item": [
+						{
+							"name": "Criar um usuário válido",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 867,\r\n  \"nome\": \"João Silva do Apagado\",\r\n  \"dataDeNascimento\": \"15/05/1990\",\r\n  \"dataDeAdmissao\": \"10/01/2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Apagar Usuário válido",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 867,\r\n  \"nome\": \"João Silva do Apagado\",\r\n  \"dataDeNascimento\": \"1990-05-15\",\r\n  \"dataDeAdmissao\": \"2020-01-10\"\r\n}"
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person/867",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"867"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ID - 2 Apagar um usuário inválido",
+					"item": [
+						{
+							"name": "Apagar Usuário Inválido",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.not.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person/867",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"867"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Cenário 5 - Visualização de Idade",
+			"item": [
+				{
+					"name": "ID 1 - Idade em dias de usuário válido",
+					"item": [
+						{
+							"name": "Criar um usuário válido para utilizar no Cenário",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status tem que ser 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"O id tem que ser 555\", function () {\r",
+											"    pm.expect(response.id).to.eql(555);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 555,\r\n  \"nome\": \"João Silva da Idade\",\r\n  \"dataDeNascimento\": \"15/05/1990\",\r\n  \"dataDeAdmissao\": \"10/01/2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Consultando o idade em dias de um usuário válido",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status tem que ser diferente de 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Idade em dias tem que ser igual a 12864\", function() {\r",
+											"    pm.expect(response).to.eql(12864);\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/person/555/age?output=days",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"555",
+										"age"
+									],
+									"query": [
+										{
+											"key": "output",
+											"value": "days"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ID 2 - Idade em meses de usuário válido",
+					"item": [
+						{
+							"name": "Consultando o idade em dias de um usuário válido",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status tem que ser diferente de 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Idade em meses tem que ser igual a 422\", function() {\r",
+											"    pm.expect(response).to.eql(422);\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/person/555/age?output=months",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"555",
+										"age"
+									],
+									"query": [
+										{
+											"key": "output",
+											"value": "months"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ID 3 - Idade em anos de usuário válido",
+					"item": [
+						{
+							"name": "Consultando o idade em anos de um usuário válido",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status tem que ser diferente de 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Idade em anos tem que ser igual a 35\", function() {\r",
+											"    pm.expect(response).to.eql(35);\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/person/555/age?output=years",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"555",
+										"age"
+									],
+									"query": [
+										{
+											"key": "output",
+											"value": "years"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ID 4 - Idade em dias de usuário inválido",
+					"item": [
+						{
+							"name": "Apagar Usuário válido",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person/555",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"555"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Consultando o idade em anos de um usuário válido",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status tem que ser diferente de 200\", function () {\r",
+											"    pm.response.to.not.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"A mensagem de erro tem que ser 'Pessoa  com id: 555 não existe'\", function() {\r",
+											"    pm.expect(response.message).to.eql(\"Pessoa  com id: 555 não existe\")\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/person/555/age?output=days",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"555",
+										"age"
+									],
+									"query": [
+										{
+											"key": "output",
+											"value": "days"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ID 3 - Idade em dias de usuário inválido Copy",
+					"item": [
+						{
+							"name": "Criar um usuário válido para utilizar no Cenário",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status tem que ser 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"O id tem que ser 555\", function () {\r",
+											"    pm.expect(response.id).to.eql(555);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 555,\r\n  \"nome\": \"João Silva da Idade\",\r\n  \"dataDeNascimento\": \"15/05/1990\",\r\n  \"dataDeAdmissao\": \"10/01/2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Consultando o idade em anos de um usuário válido",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status tem que ser diferente de 200\", function () {\r",
+											"    pm.response.to.not.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"A mensagem de erro tem que ser 'Parâmetro ausente ou inválido: output'\", function() {\r",
+											"    pm.expect(response.message).to.eql(\"Parâmetro ausente ou inválido: output\")\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/person/556/age?output=invalido",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"556",
+										"age"
+									],
+									"query": [
+										{
+											"key": "output",
+											"value": "invalido"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Cenário 5 - Visualização de Salário",
+			"item": [
+				{
+					"name": "ID 1 - Salário full de usuário válido",
+					"item": [
+						{
+							"name": "Criar um usuário válido para utilizar no Cenário",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status tem que ser 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"O id tem que ser 667\", function () {\r",
+											"    pm.expect(response.id).to.eql(667);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 667,\r\n  \"nome\": \"João da Silva Assalariado\",\r\n  \"dataDeNascimento\": \"15/05/1990\",\r\n  \"dataDeAdmissao\": \"10/01/2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Consultando o idade em dias de um usuário válido",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status tem que ser 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.text();\r",
+											"\r",
+											"pm.test(\"Salario full tem que ser igual a 7.141,43\", function() {\r",
+											"    pm.expect(response).to.eql(\"7.141,43\");\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/person/667/salary?output=full",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"667",
+										"salary"
+									],
+									"query": [
+										{
+											"key": "output",
+											"value": "full"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ID 2 - Salário min de usuário válido",
+					"item": [
+						{
+							"name": "Consultando o idade em dias de um usuário válido",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status tem que ser 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.text();\r",
+											"\r",
+											"pm.test(\"Salario min tem que ser igual a 5,48\", function() {\r",
+											"    pm.expect(response).to.eql(\"5,48\");\r",
+											"})"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/person/667/salary?output=min",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"667",
+										"salary"
+									],
+									"query": [
+										{
+											"key": "output",
+											"value": "min"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ID 4 - Idade em dias de usuário inválido",
+					"item": [
+						{
+							"name": "Apagar Usuário válido",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person/667",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"667"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Consultando o idade em anos de um usuário válido",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status tem que ser diferente de 200\", function () {\r",
+											"    pm.response.to.not.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"A mensagem de erro tem que ser 'Pessoa  com id: 667 não existe'\", function() {\r",
+											"    pm.expect(response.message).to.eql(\"Pessoa  com id: 667 não existe\")\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/person/667/salary?output=full",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"667",
+										"salary"
+									],
+									"query": [
+										{
+											"key": "output",
+											"value": "full"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ID 3 - Idade em dias de usuário inválido Copy",
+					"item": [
+						{
+							"name": "Criar um usuário válido para utilizar no Cenário",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status tem que ser 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"O id tem que ser 667\", function () {\r",
+											"    pm.expect(response.id).to.eql(667);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": 667,\r\n  \"nome\": \"João da Silva Assalariado II\",\r\n  \"dataDeNascimento\": \"15/05/1990\",\r\n  \"dataDeAdmissao\": \"10/01/2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Consultando o salario de um usuário válido com output inválido",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status tem que ser diferente de 200\", function () {\r",
+											"    pm.response.to.not.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"A mensagem de erro tem que ser 'Parâmetro ausente ou inválido: output'\", function() {\r",
+											"    pm.expect(response.message).to.eql(\"Parâmetro ausente ou inválido: output\")\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/person/667/salary?output=invalido",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"667",
+										"salary"
+									],
+									"query": [
+										{
+											"key": "output",
+											"value": "invalido"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080"
+		}
+	]
+}

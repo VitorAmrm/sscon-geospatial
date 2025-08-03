@@ -6,6 +6,8 @@ import com.vitor.amorim.sscon.geospatial.embedded.EmbeddedDatabase;
 import com.vitor.amorim.sscon.geospatial.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.Period;
@@ -19,7 +21,7 @@ public class SalaryServiceImpl implements SalaryService {
     private static final int BASE_COMPANY_SALARY = 1558;
     private static final int INCREASE_PERCENTAGE = 18;
     private static final int BONUS_PER_YEAR = 500;
-    private static final NumberFormat CURRENCY_FORMATTER = NumberFormat.getCurrencyInstance(Locale.of("pt", "BR"));
+    private static final NumberFormat CURRENCY_FORMATTER = NumberFormat.getNumberInstance(Locale.of("pt", "BR"));
 
 
     public SalaryServiceImpl(EmbeddedDatabase database) {
@@ -32,28 +34,34 @@ public class SalaryServiceImpl implements SalaryService {
     public String getSalary(Long pessoaId, SalaryOutput output) {
         Pessoa currPerson = this.database.getOne(pessoaId).orElseThrow(() -> new NotFoundException("Pessoa",pessoaId));
         int yearsInCompany = Period.between(currPerson.getDataDeAdmissao(), LocalDate.now()).getYears();
-        long salaryInLong;
+        BigDecimal salary;
         if (SalaryOutput.MIN.equals(output)) {
-            salaryInLong = this.calculateMininumSalaryQuantity(yearsInCompany) * BASE_MIN_SALARY;
+            salary = this.calculateMininumSalaryQuantity(yearsInCompany);
         } else {
-            salaryInLong = this.calculateSalaryIncrease(yearsInCompany);
+            salary = this.calculateSalaryIncrease(yearsInCompany);
         }
-        return CURRENCY_FORMATTER.format(salaryInLong);
+        return CURRENCY_FORMATTER.format(salary);
     }
 
     @Override
-    public Long calculateSalaryIncrease(int yearsInCompany) {
-        long finalSalary = BASE_COMPANY_SALARY;
+    public BigDecimal calculateSalaryIncrease(int yearsInCompany) {
+        BigDecimal finalSalary = BigDecimal.valueOf(BASE_COMPANY_SALARY);
+        BigDecimal percentage = BigDecimal.valueOf(INCREASE_PERCENTAGE).divide(BigDecimal.valueOf(100));
+
         for (int i = 0; i < yearsInCompany; i++) {
-            finalSalary += (long)(finalSalary * (INCREASE_PERCENTAGE / 100.0));
-            finalSalary += BONUS_PER_YEAR;
+            finalSalary = finalSalary.add(finalSalary.multiply(percentage));
+            finalSalary = finalSalary.add(BigDecimal.valueOf(BONUS_PER_YEAR));
         }
-        return finalSalary;
+
+        return finalSalary.setScale(2, RoundingMode.HALF_UP);
     }
 
     @Override
-    public Long calculateMininumSalaryQuantity(int yearsInCompany) {
-        Long fullSalary = this.calculateSalaryIncrease(yearsInCompany);
-        return fullSalary / BASE_MIN_SALARY;
+    public BigDecimal calculateMininumSalaryQuantity(int yearsInCompany) {
+        BigDecimal fullSalary = this.calculateSalaryIncrease(yearsInCompany);
+        BigDecimal baseSalary = BigDecimal.valueOf(BASE_MIN_SALARY);
+
+        return fullSalary.divide(baseSalary, 2, RoundingMode.HALF_UP);
     }
+
 }
