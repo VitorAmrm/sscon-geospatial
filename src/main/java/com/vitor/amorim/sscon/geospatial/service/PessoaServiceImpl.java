@@ -7,7 +7,10 @@ import com.vitor.amorim.sscon.geospatial.exception.AlreadyExistsException;
 import com.vitor.amorim.sscon.geospatial.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.text.Collator;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 @Service
@@ -15,9 +18,11 @@ public class PessoaServiceImpl implements PessoaService {
 
     private final EmbeddedDatabase database;
     private static final String SCOPE = "Pessoa";
+    private final Collator ptBrCollator = Collator.getInstance( Locale.of("pt", "BR"));
 
     public PessoaServiceImpl(EmbeddedDatabase database) {
         this.database = database;
+        this.ptBrCollator.setStrength(Collator.PRIMARY);
     }
 
     @Override
@@ -27,7 +32,9 @@ public class PessoaServiceImpl implements PessoaService {
 
     @Override
     public List<Pessoa> get() {
-        return List.of();
+        return database.get().stream()
+                .sorted(Comparator.comparing(Pessoa::getNome, ptBrCollator))
+                .toList();
     }
 
     @Override
