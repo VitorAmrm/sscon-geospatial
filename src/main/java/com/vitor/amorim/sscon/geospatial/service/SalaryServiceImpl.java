@@ -46,7 +46,8 @@ public class SalaryServiceImpl implements SalaryService {
     @Override
     public BigDecimal calculateSalaryIncrease(int yearsInCompany) {
         BigDecimal finalSalary = BigDecimal.valueOf(BASE_COMPANY_SALARY);
-        BigDecimal percentage = BigDecimal.valueOf(INCREASE_PERCENTAGE).divide(BigDecimal.valueOf(100));
+        BigDecimal percentage = BigDecimal.valueOf(INCREASE_PERCENTAGE)
+                .divide(BigDecimal.valueOf(100), 4, RoundingMode.HALF_UP);
 
         for (int i = 0; i < yearsInCompany; i++) {
             finalSalary = finalSalary.add(finalSalary.multiply(percentage));
