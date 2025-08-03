@@ -4,6 +4,7 @@ import com.vitor.amorim.sscon.geospatial.domain.Pessoa;
 import com.vitor.amorim.sscon.geospatial.domain.outputs.AgeOutput;
 import com.vitor.amorim.sscon.geospatial.embedded.EmbeddedDatabase;
 import com.vitor.amorim.sscon.geospatial.exception.AgeOutputInvalidException;
+import com.vitor.amorim.sscon.geospatial.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -29,7 +30,7 @@ public class AgeServiceImpl implements AgeService {
                 .stream()
                 .mapToLong(pessoa -> getPessoaAge(pessoa, output))
                 .findFirst()
-                .orElse(0);
+                .orElseThrow( () -> new NotFoundException("Pessoa",id));
     }
 
     private Long getPessoaAge(Pessoa pessoa , AgeOutput output) {
@@ -37,7 +38,7 @@ public class AgeServiceImpl implements AgeService {
         return switch (output) {
             case DAYS -> ChronoUnit.DAYS.between(pessoa.getDataDeNascimento(), today);
             case MONTHS -> ChronoUnit.MONTHS.between(pessoa.getDataDeNascimento(), today);
-            default -> (long) Period.between(pessoa.getDataDeNascimento(), today).getYears();
+            case YEARS -> (long) Period.between(pessoa.getDataDeNascimento(), today).getYears();
         };
     }
 }
