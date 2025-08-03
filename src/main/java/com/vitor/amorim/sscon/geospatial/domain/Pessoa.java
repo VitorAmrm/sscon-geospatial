@@ -1,5 +1,9 @@
 package com.vitor.amorim.sscon.geospatial.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -7,8 +11,13 @@ import java.util.Objects;
 public class Pessoa implements Serializable {
 
     private Long id;
+    @NotBlank
     private String nome;
+    @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d/M/yyyy")
     private LocalDate dataDeNascimento;
+    @NotNull
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "d/M/yyyy")
     private LocalDate dataDeAdmissao;
 
     public Pessoa(Long id, String nome, LocalDate dataDeNascimento, LocalDate dataDeAdmissao) {

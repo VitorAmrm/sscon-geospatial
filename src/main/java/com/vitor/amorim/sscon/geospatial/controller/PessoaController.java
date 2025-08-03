@@ -8,6 +8,8 @@ import com.vitor.amorim.sscon.geospatial.domain.outputs.SalaryOutput;
 import com.vitor.amorim.sscon.geospatial.service.AgeService;
 import com.vitor.amorim.sscon.geospatial.service.PessoaService;
 import com.vitor.amorim.sscon.geospatial.service.SalaryService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,13 +59,13 @@ public class PessoaController {
     }
 
     @PostMapping
-    public ResponseEntity<Pessoa> create(@RequestBody Pessoa pessoa) {
+    public ResponseEntity<Pessoa> create(@RequestBody @Valid Pessoa pessoa) {
         Pessoa created = this.pessoaService.create(pessoa);
         return ResponseEntity.ok(created);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PessoaDTO> update(@PathVariable Long id, @RequestBody Pessoa pessoa) {
+    public ResponseEntity<PessoaDTO> update(@PathVariable Long id, @RequestBody @Valid Pessoa pessoa) {
         Pessoa updated = pessoaService.update(id, pessoa);
         return ResponseEntity.ok(PessoaMapper.INSTANCE.entityToDto(updated));
     }
