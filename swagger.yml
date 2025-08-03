@@ -1,0 +1,225 @@
+openapi: 3.0.3
+info:
+  title: SSCON GEOSPATIAL
+  version: 1.0.0
+  description: API para gerenciamento de pessoas, cálculo de idade e salário.
+
+servers:
+  - url: http://localhost:8080
+    description: Servidor local
+
+paths:
+  /person:
+    get:
+      summary: Lista todas as pessoas
+      tags: [Pessoa]
+      responses:
+        '200':
+          description: Lista de pessoas retornada com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pessoa'
+    post:
+      summary: Cria uma nova pessoa
+      tags: [Pessoa]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pessoa'
+            example:
+              id: 4
+              nome: João Silva
+              dataDeNascimento: "1990-05-15"
+              dataDeAdmissao: "2020-01-10"
+      responses:
+        '200':
+          description: Pessoa criada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pessoa'
+
+  /person/{id}:
+    get:
+      summary: Busca uma pessoa pelo ID
+      tags: [Pessoa]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID da pessoa
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Pessoa encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pessoa'
+    put:
+      summary: Atualiza uma pessoa por completo
+      tags: [Pessoa]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PessoaDTO'
+      responses:
+        '200':
+          description: Pessoa atualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PessoaDTO'
+    patch:
+      summary: Atualiza parcialmente uma pessoa
+      tags: [Pessoa]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PessoaDTO'
+      responses:
+        '200':
+          description: Pessoa atualizada parcialmente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PessoaDTO'
+    delete:
+      summary: Deleta uma pessoa
+      tags: [Pessoa]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Pessoa deletada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PessoaDTO'
+
+  /person/{id}/age:
+    get:
+      summary: Retorna a idade da pessoa
+      tags: [Pessoa]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: output
+          in: query
+          description: Formato do cálculo da idade
+          schema:
+            $ref: '#/components/schemas/AgeOutput'
+          required: false
+          example: YEARS
+      responses:
+        '200':
+          description: Idade da pessoa no formato especificado
+          content:
+            application/json:
+              schema:
+                type: integer
+                example: 33
+
+  /person/{id}/salary:
+    get:
+      summary: Retorna o salário calculado
+      tags: [Pessoa]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: output
+          in: query
+          description: Tipo de cálculo do salário
+          schema:
+            $ref: '#/components/schemas/SalaryOutput'
+          required: false
+          example: FULL
+      responses:
+        '200':
+          description: Salário calculado
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "5.800,00"
+
+components:
+  schemas:
+    Pessoa:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        nome:
+          type: string
+          example: João Silva
+        dataDeNascimento:
+          type: string
+          format: date
+          example: "1990-05-15"
+        dataDeAdmissao:
+          type: string
+          format: date
+          example: "2020-01-10"
+    PessoaDTO:
+      type: object
+      properties:
+        nome:
+          type: string
+        dataDeNascimento:
+          type: string
+          format: date
+          example: "1990-05-15"
+        dataDeAdmissao:
+          type: string
+          format: date
+          example: "2020-01-10"
+
+    AgeOutput:
+      type: string
+      enum: [YEARS, MONTHS, DAYS]
+      description: >
+        Define como a idade será retornada:
+        - YEARS: retorna idade em anos
+        - MONTHS: retorna idade em meses
+        - DAYS: retorna idade em dias
+    SalaryOutput:
+      type: string
+      enum: [FULL, MIN]
+      description: >
+        Define como o salário será retornado:
+        - FULL: valor total do salário
+        - MIN: quantidade de salários mínimos equivalentes
