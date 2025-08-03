@@ -5,19 +5,17 @@ import com.vitor.amorim.sscon.geospatial.domain.dto.PessoaDTO;
 import com.vitor.amorim.sscon.geospatial.domain.mapper.PessoaMapper;
 import org.springframework.stereotype.Service;
 
-import java.text.Collator;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class EmbeddedDatabaseImpl implements EmbeddedDatabase {
 
-    private final Map<Long, Pessoa> database = new LinkedHashMap<>();
+    private final ConcurrentHashMap<Long, Pessoa> database = new ConcurrentHashMap<>();
+    private final AtomicLong sequence = new AtomicLong(0);
 
     @Override
     public List<Pessoa> get() {
@@ -42,6 +40,8 @@ public class EmbeddedDatabaseImpl implements EmbeddedDatabase {
     public Optional<Pessoa> create(Pessoa pessoa) {
         if (Objects.isNull(pessoa.getId()))
             pessoa.setId(getSequence());
+        else
+            sequence.updateAndGet(current -> Math.max(current, pessoa.getId()));
 
         this.database.put(pessoa.getId(), pessoa);
 
@@ -62,12 +62,7 @@ public class EmbeddedDatabaseImpl implements EmbeddedDatabase {
 
     @Override
     public Long getSequence() {
-        return  this.database.keySet()
-                .stream()
-                .filter(Objects::nonNull)
-                .max(Long::compare)
-                .map(id -> id + 1)
-                .orElse(1L);
+        return  sequence.incrementAndGet();
     }
 
     @Override
