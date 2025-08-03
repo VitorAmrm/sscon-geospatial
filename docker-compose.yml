@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  sscon-geospatial:
+    image: vitoramorim/sscon-geospatial:latest
+    container_name: sscon-geospatial
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
