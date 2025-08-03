@@ -48,12 +48,12 @@ public class PessoaServiceImpl implements PessoaService {
         if(Objects.nonNull(pessoa) && this.database.existsById(pessoa.getId()))
             throw new AlreadyExistsException(SCOPE, pessoa.getId());
 
-        return this.database.create(pessoa).orElse(null);
+        return this.database.create(pessoa).get();
     }
 
     @Override
     public Pessoa delete(Long id) {
-        return this.database.delete(id).orElse(null);
+        return this.database.delete(id).orElseThrow(() -> new NotFoundException(SCOPE, id));
     }
 
 }

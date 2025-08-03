@@ -47,12 +47,12 @@ public class PessoaController {
     }
 
     @GetMapping("/{id}/age")
-    public ResponseEntity<Long> getAge(@PathVariable Long id, @RequestParam(defaultValue = "YEARS") AgeOutput output) {
+    public ResponseEntity<Long> getAge(@PathVariable Long id, @RequestParam AgeOutput output) {
         return ResponseEntity.ok(this.ageService.getAge(id, output));
     }
 
     @GetMapping("/{id}/salary")
-    public ResponseEntity<String> getSalary(@PathVariable Long id, @RequestParam(defaultValue = "FULL") SalaryOutput output) {
+    public ResponseEntity<String> getSalary(@PathVariable Long id, @RequestParam SalaryOutput output) {
         return ResponseEntity.ok(this.salaryService.getSalary(id, output));
     }
 
