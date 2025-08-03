@@ -18,20 +18,10 @@ import java.util.Optional;
 public class EmbeddedDatabaseImpl implements EmbeddedDatabase {
 
     private final Map<Long, Pessoa> database = new LinkedHashMap<>();
-    private final Collator ptBrCollator = Collator.getInstance( Locale.of("pt", "BR"));
-
-    public EmbeddedDatabaseImpl() {
-        this.ptBrCollator.setStrength(Collator.PRIMARY);
-    }
-
 
     @Override
     public List<Pessoa> get() {
-        return this.database
-                .values()
-                    .stream()
-                        .sorted(Comparator.comparing(Pessoa::getNome, ptBrCollator))
-                          .toList();
+        return this.database.values().stream().toList();
     }
 
     @Override

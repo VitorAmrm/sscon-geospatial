@@ -10,21 +10,12 @@ public class Pessoa implements Serializable {
     private String nome;
     private LocalDate dataDeNascimento;
     private LocalDate dataDeAdmissao;
-    private Long salario;
 
     public Pessoa(Long id, String nome, LocalDate dataDeNascimento, LocalDate dataDeAdmissao) {
         this.id = id;
         this.nome = nome;
         this.dataDeNascimento = dataDeNascimento;
         this.dataDeAdmissao = dataDeAdmissao;
-    }
-
-    public Pessoa(Long id, String nome, LocalDate dataDeNascimento, LocalDate dataDeAdmissao, Long salario) {
-        this.id = id;
-        this.nome = nome;
-        this.dataDeNascimento = dataDeNascimento;
-        this.dataDeAdmissao = dataDeAdmissao;
-        this.salario = salario;
     }
 
     public Long getId() {
@@ -57,14 +48,6 @@ public class Pessoa implements Serializable {
 
     public void setDataDeAdmissao(LocalDate dataDeAdmissao) {
         this.dataDeAdmissao = dataDeAdmissao;
-    }
-
-    public Long getSalario() {
-        return salario;
-    }
-
-    public void setSalario(Long salario) {
-        this.salario = salario;
     }
 
     @Override
